@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/heard1"
+    android:layout_height="wrap_content">
+
+    <ctyon.com.logcatproject.contacts.view.CircleTextView
+        android:id="@+id/heard_cricle_one"
+        android:layout_margin="10dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_gravity="center_vertical"
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

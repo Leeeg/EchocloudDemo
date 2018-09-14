@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/holo_green_dark"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".huishengyun.view.MainFragment">
+
+    <TextView
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:id="@+id/sendTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <EditText
+        android:id="@+id/ai_edit"
+        android:hint="输入文字指令"
+        android:layout_margin="5dp"
+        android:paddingLeft="5dp"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_record_start"
+            android:layout_margin="5dp"
+            android:text="开始录音"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <Button
+            android:id="@+id/btn_record_stop"
+            android:layout_margin="5dp"
+            android:text="结束录音"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_margin="5dp"
+            android:text="播放录音"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_heart"
+            android:layout_margin="5dp"
+            android:text="心跳测试"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <Button
+            android:id="@+id/btn_stream_text"
+            android:layout_margin="5dp"
+            android:text="发送文字"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_stream_voice"
+            android:layout_margin="5dp"
+            android:text="发送语音"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_stream_voice_end"
+            android:layout_margin="5dp"
+            android:text="停止语音"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <ctyon.com.logcatproject.huishengyun.designs.CircleLoader
+        android:layout_gravity="center"
+        android:id="@+id/btn_stream_record"
+        android:layout_margin="5dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
+
+</LinearLayout>
