@@ -112,7 +112,7 @@ public class MqttFragment extends Fragment {
     }
 
     private void startMqttService() {
-        if (null != mListener) mListener.onFragmentClick(0);
+//        if (null != mListener) mListener.onFragmentClick(0);
 //        new SocketClient();
     }
 
