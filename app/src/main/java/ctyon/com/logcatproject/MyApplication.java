@@ -3,7 +3,7 @@ package ctyon.com.logcatproject;
 import android.app.Application;
 import android.os.Environment;
 
-import ctyon.com.logcatproject.huishengyun.utils.MediaManager;
+import ctyon.com.logcatproject.echocloud.utils.MediaManager;
 
 public class MyApplication extends Application {
 

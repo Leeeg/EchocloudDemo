@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@android:color/holo_green_dark"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".huishengyun.view.MainFragment">
+    tools:context=".echocloud.view.EchocloudFragment">
 
     <TextView
         android:layout_margin="5dp"
@@ -33,6 +33,7 @@
         android:layout_height="50dp" />
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -62,6 +63,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -73,12 +75,6 @@
             android:layout_height="wrap_content" />
 
 
-        <Button
-            android:id="@+id/btn_stream_text"
-            android:layout_margin="5dp"
-            android:text="发送文字"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btn_stream_voice"
@@ -96,12 +92,32 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ctyon.com.logcatproject.huishengyun.designs.CircleLoader
-        android:layout_gravity="center"
-        android:id="@+id/btn_stream_record"
-        android:layout_margin="5dp"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
+        <Button
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btn_stream_text"
+            android:layout_margin="5dp"
+            android:text="发送文字"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ctyon.com.logcatproject.echocloud.designs.CircleLoader
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/btn_stream_record"
+            android:layout_margin="5dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <TextView
+            android:layout_marginRight="20dp"
+            android:hint="按下说话"
+            android:layout_gravity="right|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
 
 </LinearLayout>
