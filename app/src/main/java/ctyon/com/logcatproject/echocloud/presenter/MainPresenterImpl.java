@@ -102,7 +102,7 @@ public class MainPresenterImpl implements MainPresenter, HttpUtil.OnPostFailedCa
                         break;
                 }
                 String result = HttpUtil.postStream(nonce, signature, dataByte, type);
-                if (null != result && !result.isEmpty()) {
+                if (null != result && !result.isEmpty() && "-1".equals(result)) {
                     Message message = handler.obtainMessage(0);
                     message.obj = result;
                     handler.sendMessage(message);

@@ -24,9 +24,9 @@
         android:theme="@style/AppTheme">
 
         <activity
-        android:name=".MainActivity"
-        android:label="@string/title_activity_main"
-        android:theme="@style/AppTheme.NoActionBar">
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +35,9 @@
         </activity>
 
         <activity
-        android:name=".contacts.ContactActivity"
-        android:label="@string/title_activity_contact" />
+            android:name=".contacts.ContactActivity"
+            android:label="@string/title_activity_contact" />
+
         <activity
             android:name=".echocloud.view.EchocludActivity"
             android:label="@string/title_activity_echoclud" />
@@ -45,10 +46,10 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service android:name=".mqtt.MQTTService" />
 
-        <receiver android:name=".mqtt.MqttReceiver">
+        <receiver android:name=".mqtt.MqttBroadcastReceiver">
             <intent-filter>
-                <action android:name="com.android.when.simCard.ready"/>
-                <action android:name="com.android.mqtt.topics"/>
+                <action android:name="com.android.when.simCard.ready" />
+                <action android:name="com.android.mqtt.topics" />
             </intent-filter>
         </receiver>
 

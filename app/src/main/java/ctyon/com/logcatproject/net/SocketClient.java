@@ -1,4 +1,4 @@
-package ctyon.com.logcatproject.mqtt;
+package ctyon.com.logcatproject.net;
 
 import android.app.Activity;
 import android.content.Context;

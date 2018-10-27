@@ -4,11 +4,15 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.LocalServerSocket;
+import android.net.LocalSocket;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -21,15 +25,16 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.UUID;
+
+import ctyon.com.logcatproject.util.VoiceUtil;
 
 /**
  * CreateDate：18-9-15 on 上午10:33
@@ -47,7 +52,7 @@ public class MQTTService extends Service {
     private String passWord = "admin";
     private String clientId;
     private boolean isConnected;
-    private String topics;
+    private String topics = "2184";
 
     private static final String MQTT_TALKBACK = "com.android.mqtt.talkback";
     private static final String MQTT_ISTOPIC = "isTopics";
@@ -180,13 +185,14 @@ public class MQTTService extends Service {
         @Override
         public void messageArrived(String topic, MqttMessage message) {
 
-            String str1 = new String(message.getPayload());
-            String str2 = topic + ";qos:" + message.getQos() + ";   retained:" + message.isRetained();
-            Log.e(TAG, "messageArrived:" + str1);
-            Log.e(TAG, str2);
+            String str2 = topic + ";qos: " + message.getQos() + ";   retained: " + message.isRetained();
+            Log.d(TAG, str2);
 
-            send(message.getPayload());
-//            Log.e(TAG, "ip : " + getIPAddress(MqttService.this));
+//            Log.e(TAG, "Time : " + System.currentTimeMillis() + "   VoiceNumber = " + VoiceUtil
+//                    .getSequenceNumberFromVoice(message.getPayload())
+//             + "   VoiceId = " + VoiceUtil.getVoiceId(message.getPayload()));
+
+//            send(message.getPayload());
 
 //            sendBroadcast(new Intent(MQTT_TALKBACK)
 //                    .putExtra(MQTT_KEY, message.getPayload())
@@ -284,26 +290,4 @@ public class MQTTService extends Service {
                 (ip >> 24 & 0xFF);
     }
 
-    public static void send(byte[] message) {
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    int server_port = 9998;
-                    DatagramSocket s = null;
-                    s = new DatagramSocket();
-
-                    InetAddress local = null;
-                    // 换成服务器端IP
-                    local = InetAddress.getByName("localhost");
-                    DatagramPacket p = new DatagramPacket(message, message.length, local, server_port);
-                    s.send(p);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "send UDP Exception ERROR", e);
-                }
-            }
-        }.start();
-
-    }
 }

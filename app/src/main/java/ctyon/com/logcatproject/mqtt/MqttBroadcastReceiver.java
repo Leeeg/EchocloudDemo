@@ -8,7 +8,7 @@ import android.util.Log;
 
 
 
-public class MqttReceiver extends BroadcastReceiver {
+public class MqttBroadcastReceiver extends BroadcastReceiver {
 
     private static final String SIM_READY = "com.android.when.simCard.ready";
     private static final String MQTT_TOPICS = "com.android.mqtt.topics";

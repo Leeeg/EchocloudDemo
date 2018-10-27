@@ -4,9 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import ctyon.com.logcatproject.R;
 
@@ -19,30 +23,23 @@ import ctyon.com.logcatproject.R;
  * create an instance of this fragment.
  */
 public class MqttFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
+    private Button mqttStartBt, mqttStopBt, mqttSub;
+    private EditText mqttTopicEt;
+
+
     public MqttFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BlankFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static MqttFragment newInstance(String param1, String param2) {
         MqttFragment fragment = new MqttFragment();
         Bundle args = new Bundle();
@@ -66,7 +63,25 @@ public class MqttFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
-        rootView.findViewById(R.id.bt_start_mqtt).setOnClickListener((view) -> startMqttService());
+        mqttStartBt = rootView.findViewById(R.id.bt_mqtt_start);
+        mqttStartBt.setOnClickListener((v) -> {
+            mqttStartBt.setEnabled(false);
+            mqttStopBt.setEnabled(true);
+            startMqttService();
+        });
+        mqttStopBt = rootView.findViewById(R.id.bt_mqtt_stop);
+        mqttStopBt.setOnClickListener((v) -> {
+            mqttStopBt.setEnabled(false);
+            mqttStartBt.setEnabled(true);
+            stopMqttService();
+        });
+        mqttTopicEt = rootView.findViewById(R.id.et_mqtt_topic);
+        mqttSub = rootView.findViewById(R.id.bt_mqtt_sub);
+        mqttSub.setOnClickListener((v)->{
+            if (null != mqttTopicEt.getText() && !mqttTopicEt.getText().toString().isEmpty()){
+
+            }
+        });
         return rootView;
     }
 
@@ -109,11 +124,20 @@ public class MqttFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
 
         void onFragmentClick(int id);
+
+        void onMqttSub(String topic);
     }
 
     private void startMqttService() {
-//        if (null != mListener) mListener.onFragmentClick(0);
-//        new SocketClient();
+        if (null != mListener) mListener.onFragmentClick(0);
+    }
+
+    private void stopMqttService() {
+        if (null != mListener) mListener.onFragmentClick(-1);
+    }
+
+    private void subMqttTopic(String topic) {
+        if (null != mListener) mListener.onMqttSub(topic);
     }
 
 }
