@@ -19,26 +19,26 @@
         android:layout_weight="1" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/bt_mqtt_start"
             style="@style/MyButton"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="StartMqttService" />
+            android:layout_weight="1"
+            android:text="startMqttService" />
 
         <Button
-            android:enabled="false"
             android:id="@+id/bt_mqtt_stop"
             style="@style/MyButton"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="StopMqttService" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="stopMqttService" />
 
     </LinearLayout>
 
@@ -52,9 +52,41 @@
     <Button
         android:id="@+id/bt_mqtt_sub"
         style="@style/MyButton"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="subTopics" />
+
+
+    <EditText
+        android:id="@+id/et_mqtt_send"
+        style="@style/MyButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="SendTo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_mqtt_start_call"
+            style="@style/MyButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:text="startCall" />
+
+        <Button
+            android:id="@+id/bt_mqtt_stop_call"
+            style="@style/MyButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:text="stopCall" />
+
+    </LinearLayout>
 
 </LinearLayout>

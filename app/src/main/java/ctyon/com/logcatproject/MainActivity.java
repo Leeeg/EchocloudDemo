@@ -19,7 +19,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.eclipse.paho.android.service.MqttService;
+
 import ctyon.com.logcatproject.echocloud.view.EchocloudFragment;
+import ctyon.com.logcatproject.mqtt.Container;
 import ctyon.com.logcatproject.mqtt.MQTTService;
 import ctyon.com.logcatproject.mqtt.MqttFragment;
 
@@ -34,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     EchocloudFragment echocloudFragment;
     MqttFragment mqttFragment;
 
-    private static final String MQTT_KEY = "topics";
-    private static final String MQTT_ISTOPIC = "isTopics";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,23 +141,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onFragmentClick(int id) {
-        switch (id) {
-            case 0:
-                startService(new Intent(MainActivity.this, MQTTService.class));
-                break;
-            case -1:
-                stopService(new Intent(MainActivity.this, MQTTService.class));
-                break;
-        }
+    public void startCall(String toId) {
+        Intent mqttIntent = new Intent(MainActivity.this, MQTTService.class);
+        mqttIntent.putExtra(Container.MQTT_STARTCALL, true);
+        mqttIntent.putExtra(Container.MQTT_TOID, toId);
+        startService(mqttIntent);
+    }
+
+    @Override
+    public void stopCall() {
+        Intent mqttIntent = new Intent(MainActivity.this, MQTTService.class);
+        mqttIntent.putExtra(Container.MQTT_STOPCALL, true);
+        startService(mqttIntent);
     }
 
     @Override
     public void onMqttSub(String topic) {
         Intent mqttIntent = new Intent(MainActivity.this, MQTTService.class);
-        mqttIntent.putExtra(MQTT_KEY, topic);
-        mqttIntent.putExtra(MQTT_ISTOPIC, true);
-        startService(new Intent(MainActivity.this, MQTTService.class));
+        mqttIntent.putExtra(Container.MQTT_KEY, topic);
+        mqttIntent.putExtra(Container.MQTT_ISTOPIC, true);
+        startService(mqttIntent);
     }
 
 }
