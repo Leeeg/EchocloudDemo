@@ -1,9 +1,12 @@
 package ctyon.com.logcatproject;
 
 import android.app.FragmentManager;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -155,6 +158,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mqttIntent.putExtra(MQTT_ISTOPIC, true);
         startService(new Intent(MainActivity.this, MQTTService.class));
     }
-
 
 }

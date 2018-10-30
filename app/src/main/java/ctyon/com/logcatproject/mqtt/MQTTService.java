@@ -9,8 +9,11 @@ import android.net.LocalSocket;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Binder;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -34,6 +37,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.UUID;
 
+import ctyon.com.logcatproject.echocloud.model.VoiceMessage;
 import ctyon.com.logcatproject.util.VoiceUtil;
 
 /**
@@ -59,10 +63,28 @@ public class MQTTService extends Service {
     private static final String MQTT_KEY = "topics";
     private static final String MQTT_TIME = "time";
 
+    private MyMqttCallback myMqttCallback;
+    private Handler handler;
+
+    public void setMqttCallback(MyMqttCallback myMqttCallback) {
+        this.myMqttCallback = myMqttCallback;
+    }
+
+    public MQTTService() {
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "MqttService : onCreate");
+        handler = new Handler(getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                if (null != myMqttCallback)
+                    myMqttCallback.mqttData("" + msg.obj);
+            }
+        };
+
         init();
     }
 
@@ -101,6 +123,7 @@ public class MQTTService extends Service {
 
     private void init() {
         Log.d(TAG, "MqttService : init");
+        sendBack("init MqttService");
         clientId = UUID.randomUUID().toString();
         // 服务器地址（协议+地址+端口号）
         String uri = host;
@@ -127,8 +150,15 @@ public class MQTTService extends Service {
 
     }
 
+    private void sendBack(String msg){
+        Message message = handler.obtainMessage();
+        message.obj = msg;
+        handler.sendMessage(message);
+    }
+
     @Override
     public void onDestroy() {
+        sendBack("destroy MqttService");
         try {
             client.disconnect();
         } catch (MqttException e) {
@@ -142,6 +172,7 @@ public class MQTTService extends Service {
      * 连接MQTT服务器
      */
     private void doClientConnection() {
+        sendBack("start to connect to MQTTService");
         Log.d(TAG, "MqttService : doClientConnection");
         if (!client.isConnected() && isConnectIsNomarl()) {
             try {
@@ -162,6 +193,7 @@ public class MQTTService extends Service {
         @Override
         public void onSuccess(IMqttToken arg0) {
             Log.i(TAG, "连接成功 ");
+            sendBack("connect to MQTTService success");
             isConnected = true;
             subTopics();
         }
@@ -170,9 +202,10 @@ public class MQTTService extends Service {
         public void onFailure(IMqttToken arg0, Throwable arg1) {
             arg1.printStackTrace();
             Log.e(TAG, "连接失败   重连-------");
+            sendBack("connect to MQTTService failed and try reConnect");
             isConnected = false;
             if (!isConnected) {
-                doClientConnection();
+//                doClientConnection();
             }
         }
     };
@@ -187,6 +220,8 @@ public class MQTTService extends Service {
 
             String str2 = topic + ";qos: " + message.getQos() + ";   retained: " + message.isRetained();
             Log.d(TAG, str2);
+
+            sendBack("received MQTT message : " + str2);
 
 //            Log.e(TAG, "Time : " + System.currentTimeMillis() + "   VoiceNumber = " + VoiceUtil
 //                    .getSequenceNumberFromVoice(message.getPayload())
@@ -208,6 +243,7 @@ public class MQTTService extends Service {
         @Override
         public void connectionLost(Throwable arg0) {
             Log.e(TAG, "失去连接   重连-------");
+            sendBack("lost connect");
             isConnected = false;
             if (!isConnected) {
                 doClientConnection();
@@ -225,9 +261,11 @@ public class MQTTService extends Service {
         if (info != null && info.isAvailable()) {
             String name = info.getTypeName();
             Log.i(TAG, "MQTT当前网络名称：" + name);
+            sendBack("net type : " + name);
             return true;
         } else {
             Log.i(TAG, "MQTT 没有可用网络");
+            sendBack("do not have Internet");
             return false;
         }
     }
@@ -235,8 +273,15 @@ public class MQTTService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new MqttBinder();
     }
+
+    public class MqttBinder extends Binder {
+        public MQTTService getService() {
+            return MQTTService.this;
+        }
+    }
+
 
     /**
      * 获取ip地址

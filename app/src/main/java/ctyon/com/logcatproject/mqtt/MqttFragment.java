@@ -1,17 +1,27 @@
 package ctyon.com.logcatproject.mqtt;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.IBinder;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ctyon.com.logcatproject.MyApplication;
 import ctyon.com.logcatproject.R;
 
 /**
@@ -22,7 +32,7 @@ import ctyon.com.logcatproject.R;
  * Use the {@link MqttFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MqttFragment extends Fragment {
+public class MqttFragment extends Fragment implements MyMqttCallback{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -35,6 +45,9 @@ public class MqttFragment extends Fragment {
     private Button mqttStartBt, mqttStopBt, mqttSub;
     private EditText mqttTopicEt;
 
+    private RecyclerView recyclerView;
+    private LogAdapter logAdapter;
+    private List<String> logList = new ArrayList<>();
 
     public MqttFragment() {
         // Required empty public constructor
@@ -82,6 +95,17 @@ public class MqttFragment extends Fragment {
 
             }
         });
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_log);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MyApplication.getInstance().getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        layoutManager.setOrientation(OrientationHelper.VERTICAL);
+        logAdapter = new LogAdapter(logList);
+        recyclerView.setAdapter(logAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        connection = new MyServiceConnection();
+
         return rootView;
     }
 
@@ -109,6 +133,11 @@ public class MqttFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void mqttData(String data) {
+        logAdapter.addNewItem(data);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -129,15 +158,48 @@ public class MqttFragment extends Fragment {
     }
 
     private void startMqttService() {
-        if (null != mListener) mListener.onFragmentClick(0);
+//        if (null != mListener) mListener.onFragmentClick(0);
+        mqttData("onBindService --- ");
+        onBindService();
     }
 
     private void stopMqttService() {
-        if (null != mListener) mListener.onFragmentClick(-1);
+//        if (null != mListener) mListener.onFragmentClick(-1);
+        mqttData("onUnbindService --- ");
+        onUnBindService();
     }
 
     private void subMqttTopic(String topic) {
         if (null != mListener) mListener.onMqttSub(topic);
+    }
+
+
+    public void onBindService() {
+        Intent i = new Intent(getActivity(), MQTTService.class);
+        getActivity().bindService(i, connection, getActivity().BIND_AUTO_CREATE);
+    }
+
+    public void onUnBindService() {
+        getActivity().unbindService(connection);
+    }
+
+    MyServiceConnection connection;
+    MQTTService mqttService;
+
+    public class MyServiceConnection implements ServiceConnection{
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mqttService = ((MQTTService.MqttBinder) service).getService();
+            mqttService.setMqttCallback(null);
+            mqttData("onServiceUnConnected --- ");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mqttService.setMqttCallback(null);
+            mqttData("onServiceUnConnected --- ");
+        }
     }
 
 }
