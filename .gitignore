@@ -10,7 +10,6 @@
 .externalNativeBuild
 #.gitignore
 .idea/
-build.gradle
 gradle.properties
 gradle/
 gradlew

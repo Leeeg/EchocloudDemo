@@ -32,7 +32,7 @@
         android:layout_height="match_parent"
         android:scrollbars="none" />
 
-    <ctyon.com.logcatproject.contacts.view.WordsNavigation
+    <lee.com.echoclud.contacts.view.WordsNavigation
         android:layout_below="@+id/layout_top"
         android:id="@+id/words"
         android:layout_width="30dp"

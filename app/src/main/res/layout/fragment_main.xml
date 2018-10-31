@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@android:color/holo_green_dark"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".echocloud.view.EchocloudFragment">
+    tools:context="lee.com.echoclud.echocloud.view.EchocloudFragment">
 
     <TextView
         android:layout_margin="5dp"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ctyon.com.logcatproject.echocloud.designs.CircleLoader
+        <lee.com.echoclud.echocloud.designs.CircleLoader
             android:layout_gravity="center_horizontal"
             android:id="@+id/btn_stream_record"
             android:layout_margin="5dp"

@@ -1,12 +1,7 @@
-package ctyon.com.logcatproject.mqtt;
+package lee.com.echoclud.echocloud.model;
 
 import com.google.gson.Gson;
 
-/**
- * CreateDate：18-10-30 on 下午5:42
- * Describe:
- * Coder: lee
- */
 public class GsonInner {
 
     private static Gson gson;

@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ctyon.com.logcatproject.contacts.view.CircleTextView
+        <lee.com.echoclud.contacts.view.CircleTextView
             android:id="@+id/icon_people"
             android:layout_margin="10dp"
             android:layout_width="50dp"
